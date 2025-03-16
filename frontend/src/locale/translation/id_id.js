@@ -243,6 +243,12 @@ const lang = {
   recent_invoices: 'Faktur Terbaru',
   recent_quotes: 'Penawaran Terbaru',
   customer_preview: 'Pratinjau Pelanggan',
+  customer_data: 'Data Pelanggan',
+  province: 'Provinsi',
+  city: 'Kota',
+  district: 'Kecamatan',
+  village: 'Kelurahan',
+  destination_location: 'Lokasi Tujuan',
   show: 'Tampilkan',
   edit: 'Edit',
   download: 'Unduh',
@@ -362,6 +368,7 @@ const lang = {
   year: 'Tahun',
   expire_date: 'Tanggal Kedaluwarsa',
   item: 'Item',
+  items: 'Item-item',
   description: 'Deskripsi',
   quantity: 'Kuantitas',
   price: 'Harga',
@@ -458,5 +465,7 @@ const lang = {
   offer_settings_offer_pdf_footer: 'Footer PDF Penawaran',
   deal: 'Deal',
   quotation_list: 'Daftar Quotation',
+  pickup_location: 'Lokasi Pickup',
+
 };
 export default lang;

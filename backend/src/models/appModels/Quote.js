@@ -30,12 +30,18 @@ const quoteSchema = new mongoose.Schema({
   ],
   origin: {
     country: { type: String, required: true },
+    province: { type: String, required: true },
     city: { type: String, required: true },
+    district: { type: String, required: true },
+    village: { type: String, required: true },
     address: { type: String, required: true },
   },
   destination: {
     country: { type: String, required: true },
+    province: { type: String, required: true },
     city: { type: String, required: true },
+    district: { type: String, required: true },
+    village: { type: String, required: true },
     address: { type: String, required: true },
   },
   currency: {
