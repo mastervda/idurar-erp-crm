@@ -10,15 +10,15 @@ async function deleteData() {
   const Setting = require('../models/coreModels/Setting');
   const PaymentMode = require('../models/appModels/PaymentMode');
   const Taxes = require('../models/appModels/Taxes');
+  const Wilayah = require('../models/coreModels/Wilayah');
 
   await Admin.deleteMany();
   await AdminPassword.deleteMany();
   await PaymentMode.deleteMany();
   await Taxes.deleteMany();
-  console.log('👍 Admin Deleted. To setup demo admin data, run\n\n\t npm run setup\n\n');
   await Setting.deleteMany();
-  console.log('👍 Setting Deleted. To setup Setting data, run\n\n\t npm run setup\n\n');
-
+  await Wilayah.deleteMany();
+  console.log('👍 Admin, AdminPassword, Setting, PaymentMode, Taxes, Wilayah deleted. To setup data, run\n\n\t npm run setup\n\n');
   process.exit();
 }
 
