@@ -1,34 +1,11 @@
 const mongoose = require('mongoose');
 
 const quoteSchema = new mongoose.Schema({
-  removed: {
-    type: Boolean,
-    default: false,
-  },
-  createdBy: { type: mongoose.Schema.ObjectId, ref: 'Admin', required: true },
-
-  converted: {
-    type: Boolean,
-    default: false,
-  },
   number: {
     type: Number,
     required: true,
+    unique: true,
   },
-  year: {
-    type: Number,
-    required: true,
-  },
-  content: String,
-  date: {
-    type: Date,
-    required: true,
-  },
-  expiredDate: {
-    type: Date,
-    required: true,
-  },
-
   client: {
     type: mongoose.Schema.ObjectId,
     ref: 'Client',
@@ -41,50 +18,25 @@ const quoteSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      description: {
+      type: {
         type: String,
       },
       quantity: {
         type: Number,
         required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-      // taxRate: {
-      //   type: Number,
-      //   default: 0,
-      // },
-      // subTotal: {
-      //   type: Number,
-      //   default: 0,
-      // },
-      // taxTotal: {
-      //   type: Number,
-      //   default: 0,
-      // },
-      total: {
-        type: Number,
-        required: true,
+        min: 1,
       },
     },
   ],
-  taxRate: {
-    type: Number,
+  origin: {
+    country: { type: String, required: true },
+    city: { type: String, required: true },
+    address: { type: String, required: true },
   },
-  subTotal: {
-    type: Number,
-  },
-  taxTotal: {
-    type: Number,
-  },
-  total: {
-    type: Number,
-  },
-  credit: {
-    type: Number,
-    default: 0,
+  destination: {
+    country: { type: String, required: true },
+    city: { type: String, required: true },
+    address: { type: String, required: true },
   },
   currency: {
     type: String,
@@ -92,25 +44,59 @@ const quoteSchema = new mongoose.Schema({
     uppercase: true,
     required: true,
   },
-  discount: {
+  feePickup: {
     type: Number,
-    default: 0,
+    required: true,
   },
-  notes: {
-    type: String,
+  feeKapal: {
+    type: Number,
+    required: true,
+  },
+  feeDoring: {
+    type: Number,
+    required: true,
+  },
+  feeInsurance: {
+    type: Number,
+    required: true,
+  },
+  feeAdmin: {
+    type: Number,
+    required: true,
+  },
+  feeTotal: {
+    type: Number,
+    required: true,
   },
   status: {
     type: String,
     enum: ['draft', 'pending', 'sent', 'accepted', 'declined', 'cancelled', 'on hold'],
     default: 'draft',
   },
-  approved: {
-    type: Boolean,
-    default: false,
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
-  isExpired: {
-    type: Boolean,
-    default: false,
+  updatedBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Admin',
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Admin',
+    required: true,
+  },
+  removedAt: {
+    type: Date,
+  },
+  removedBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Admin',
   },
   pdf: {
     type: String,
@@ -127,14 +113,6 @@ const quoteSchema = new mongoose.Schema({
       },
     },
   ],
-  updated: {
-    type: Date,
-    default: Date.now,
-  },
-  created: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 quoteSchema.plugin(require('mongoose-autopopulate'));
