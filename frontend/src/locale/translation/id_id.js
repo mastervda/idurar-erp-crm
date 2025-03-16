@@ -142,6 +142,7 @@ const lang = {
   new_zealand: 'Selandia Baru',
   nicaragua: 'Nikaragua',
   niger: 'Niger',
+  New: 'Baru',
   nigeria: 'Nigeria',
   norway: 'Norwegia',
   oman: 'Oman',
@@ -245,7 +246,8 @@ const lang = {
   show: 'Tampilkan',
   edit: 'Edit',
   download: 'Unduh',
-  draft: 'Draf',
+  draft: 'draf',
+  Draft: 'Draf',
   pending: 'Tertunda',
   sent: 'Terkirim',
   declined: 'Ditolak',
@@ -453,6 +455,8 @@ const lang = {
   search: 'cari',
   quote_settings_quote_pdf_footer: 'Footer PDF Faktur',
   invoice_settings_invoice_pdf_footer: 'Footer PDF Invoice',
-  offer_settings_offer_pdf_footer: 'Footer PDF Penawaran'
+  offer_settings_offer_pdf_footer: 'Footer PDF Penawaran',
+  deal: 'Deal',
+  quotation_list: 'Daftar Quotation',
 };
 export default lang;

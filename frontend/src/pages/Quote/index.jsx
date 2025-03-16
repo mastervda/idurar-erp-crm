@@ -77,7 +77,7 @@ export default function Quote() {
 
   const Labels = {
     PANEL_TITLE: translate('proforma invoice'),
-    DATATABLE_TITLE: translate('proforma invoice_list'),
+    DATATABLE_TITLE: translate('quotation_list'),
     ADD_NEW_ENTITY: translate('add_new_proforma invoice'),
     ENTITY_NAME: translate('proforma invoice'),
   };

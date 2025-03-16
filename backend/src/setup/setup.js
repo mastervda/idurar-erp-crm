@@ -35,7 +35,7 @@ async function setupApp() {
 
     const demoAdmin = await new Admin({
       email: 'admin@demo.com',
-      name: 'IDURAR',
+      name: 'Sapamoving Admin',
       surname: 'Admin',
       enabled: true,
       role: 'owner'

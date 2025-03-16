@@ -1,5 +1,5 @@
 {
-  "name": "idurar-erp-crm",
+  "name": "sapamoving",
   "version": "4.1.0",
   "engines": {
     "npm": "10.2.4",
@@ -50,15 +50,15 @@
     "@": "src"
   },
   "main": "server.js",
-  "author": "IDURAR",
-  "email": "hello@idurarapp.com",
+  "author": "VDX",
+  "email": "vertexdigitaladitama@gmail.com",
   "license": "Fair-code License",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idurar/idurar-erp-crm/.git"
+    "url": "git+https://github.com/mastervda/idurar-erp-crm/.git"
   },
   "bugs": {
-    "url": "https://github.com/idurar/idurar-erp-crm//issues"
+    "url": "https://github.com/mastervda/idurar-erp-crm/issues"
   },
-  "homepage": "https://github.com/idurar/idurar-erp-crm/#readme"
+  "homepage": "https://github.com/mastervda/idurar-erp-crm/#readme"
 }

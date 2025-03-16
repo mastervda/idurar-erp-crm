@@ -453,5 +453,8 @@ module.exports = {
     search: 'cari',
     quote_settings_quote_pdf_footer: 'Footer PDF Faktur',
     invoice_settings_invoice_pdf_footer: 'Footer PDF Invoice',
-    offer_settings_offer_pdf_footer: 'Footer PDF Penawaran'
+    offer_settings_offer_pdf_footer: 'Footer PDF Penawaran',
+    deal: 'Deal',
+    deal_list: 'Daftar Deal',
+    add_new_deal: 'Tambah Deal Baru'
 };  

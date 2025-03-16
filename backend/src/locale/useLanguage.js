@@ -2,42 +2,42 @@ const { readBySettingKey } = require('@/middlewares/settings');
 
 const getLabel = (lang, key) => {
   try {
+    if (!lang || typeof lang !== 'object') return 'No translation found';
+
     const lowerCaseKey = key
       .toLowerCase()
       .replace(/[^a-zA-Z0-9]/g, '_')
       .replace(/ /g, '_');
 
     if (lang[lowerCaseKey]) return lang[lowerCaseKey];
-    else {
-      const remove_underscore_fromKey = lowerCaseKey.replace(/_/g, ' ').split(' ');
+    
+    const label = lowerCaseKey
+      .replace(/_/g, ' ')
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
 
-      const conversionOfAllFirstCharacterofEachWord = remove_underscore_fromKey.map(
-        (word) => word[0].toUpperCase() + word.substring(1)
-      );
-
-      const label = conversionOfAllFirstCharacterofEachWord.join(' ');
-
-      return label;
-    }
+    return label;
   } catch (error) {
+    console.error('Translation Error:', error);
     return 'No translate Found';
   }
 };
 
-const useSelector = () => {
-  const defaultfilePath = `./translation/id_id`;
-
-  const langFile = require(defaultfilePath);
-  return langFile;
+const loadLanguageFile = (selectedLang) => {
+  try {
+    const langFilePath = path.resolve(__dirname, `./translation/${selectedLang}`);
+    return require(langFilePath);
+  } catch (error) {
+    console.error(`❌ Error loading language file for: ${selectedLang}`, error);
+    return {}; // Return an empty object if translation file is missing
+  }
 };
 
-const useLanguage = ({ selectedLang }) => {
-  const lang = useSelector();
-  const translate = (value) => {
-    const text = getLabel(lang, value);
-    return text;
-  };
-  return translate;
+const useLanguage = (selectedLang = 'id_id') => {
+  const lang = loadLanguageFile(selectedLang);
+
+  return (key) => getLabel(lang, key);
 };
 
 module.exports = useLanguage;
