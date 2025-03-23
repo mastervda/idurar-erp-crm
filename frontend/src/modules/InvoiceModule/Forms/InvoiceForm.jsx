@@ -1,35 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
 import dayjs from 'dayjs';
 import { Form, Input, InputNumber, Button, Select, Divider, Row, Col } from 'antd';
-
 import { PlusOutlined } from '@ant-design/icons';
-
 import { DatePicker } from 'antd';
-
 import AutoCompleteAsync from '@/components/AutoCompleteAsync';
-
 import ItemRow from '@/modules/ErpPanelModule/ItemRow';
-
 import MoneyInputFormItem from '@/components/MoneyInputFormItem';
 import { selectFinanceSettings } from '@/redux/settings/selectors';
 import { useDate } from '@/settings';
 import useLanguage from '@/locale/useLanguage';
-
 import calculate from '@/utils/calculate';
 import { useSelector } from 'react-redux';
 import SelectAsync from '@/components/SelectAsync';
 
-export default function InvoiceForm({ subTotal = 0, current = null }) {
+export default function InvoiceForm({ subTotal = 0, current = null, form }) {
   const { last_invoice_number } = useSelector(selectFinanceSettings);
-
   if (last_invoice_number === undefined) {
     return <></>;
   }
 
-  return <LoadInvoiceForm subTotal={subTotal} current={current} />;
+  return <LoadInvoiceForm subTotal={subTotal} current={current} form={form} />;
 }
 
-function LoadInvoiceForm({ subTotal = 0, current = null }) {
+function LoadInvoiceForm({ subTotal = 0, current = null, form }) {
   const translate = useLanguage();
   const { dateFormat } = useDate();
   const { last_invoice_number } = useSelector(selectFinanceSettings);
@@ -38,24 +31,71 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
   const [taxTotal, setTaxTotal] = useState(0);
   const [currentYear, setCurrentYear] = useState(() => new Date().getFullYear());
   const [lastNumber, setLastNumber] = useState(() => last_invoice_number + 1);
+  const [clientShortName, setClientShortName] = useState('XX');
 
   const handelTaxChange = (value) => {
     setTaxRate(value / 100);
   };
 
   useEffect(() => {
+    console.log('useEffect current', current);
     if (current) {
-      const { taxRate = 0, year, number } = current;
+      const { taxRate = 0, year, number, client } = current;
       setTaxRate(taxRate / 100);
       setCurrentYear(year);
       setLastNumber(number);
+
+      if (client?.shortName) {
+        setClientShortName(client.shortName);
+      }
     }
   }, [current]);
+
   useEffect(() => {
     const currentTotal = calculate.add(calculate.multiply(subTotal, taxRate), subTotal);
     setTaxTotal(Number.parseFloat(calculate.multiply(subTotal, taxRate)));
     setTotal(Number.parseFloat(currentTotal));
   }, [subTotal, taxRate]);
+
+  useEffect(() => {
+    if (last_invoice_number !== undefined) {
+      setLastNumber(last_invoice_number + 1);
+    }
+  }, [last_invoice_number]);
+  useEffect(() => {
+    if (currentYear !== new Date().getFullYear()) {
+      setLastNumber(1);
+    }
+  }, [currentYear]);
+
+  const generateInvoiceNumber = (clientShortName) => {
+    const monthRoman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+    const currentMonth = monthRoman[new Date().getMonth()];
+    return `${String(lastNumber).padStart(
+      3,
+      '0'
+    )}/L/${clientShortName}/${currentMonth}/${currentYear}`;
+  };
+
+  useEffect(() => {
+    const invoiceNum = generateInvoiceNumber(clientShortName);
+    form.setFieldsValue({ invoiceNumber: invoiceNum });
+  }, [clientShortName, lastNumber, currentYear]);
+
+  const handleClientSelect = (value, option) => {
+    if (!option) {
+      console.error('No option selected');
+      return;
+    }
+
+    const shortName = option?.data?.shortName || 'XX';
+    console.log('Client selected:', shortName);
+    setClientShortName(shortName);
+
+    if (value) {
+      form.setFieldsValue({ client: value });
+    }
+  };
 
   const addField = useRef(false);
 
@@ -82,22 +122,37 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
               searchFields={'name'}
               redirectLabel={'Add New Client'}
               withRedirect
+              labelInvalue={true}
               urlToRedirect={'/customer'}
+              onSelect={handleClientSelect}
             />
           </Form.Item>
         </Col>
-        <Col className="gutter-row" span={3}>
+        <Col className="gutter-row" span={8}>
           <Form.Item
-            label={translate('number')}
-            name="number"
-            initialValue={lastNumber}
+            name="invoiceNumber"
+            label={translate('Invoice Number (Auto)')}
             rules={[
               {
                 required: true,
               },
             ]}
           >
-            <InputNumber min={1} style={{ width: '100%' }} />
+            <Input readOnly />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={8}>
+          <Form.Item
+            name="number"
+            initialValue={lastNumber}
+            label={translate('Number')}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <InputNumber readOnly />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={3}>
@@ -111,7 +166,12 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
               },
             ]}
           >
-            <InputNumber style={{ width: '100%' }} />
+            <InputNumber
+              style={{ width: '100%' }}
+              onChange={(value) => {
+                setCurrentYear(value);
+              }}
+            />
           </Form.Item>
         </Col>
 

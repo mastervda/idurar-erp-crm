@@ -18,6 +18,8 @@ export default function AutoCompleteAsync({
   urlToRedirect = '/',
   value, /// this is for update
   onChange, /// this is for update
+  onSelect,
+  labelInvalue = false,
 }) {
   const translate = useLanguage();
 
@@ -36,25 +38,25 @@ export default function AutoCompleteAsync({
 
   const navigate = useNavigate();
 
-  const handleSelectChange = (newValue) => {
+  const handleSelectChange = (newValue, option) => {
     isUpdating.current = false;
-    // setCurrentValue(value[outputValue] || value); // set nested value or value
-    // onChange(newValue[outputValue] || newValue);
+    setCurrentValue(newValue);
+
     if (onChange) {
-      if (newValue) onChange(newValue[outputValue] || newValue);
+      if (newValue) onChange(newValue);
     }
+
+    if (onSelect) {
+      onSelect(newValue, option);
+    }
+
     if (newValue === 'redirectURL' && withRedirect) {
       navigate(urlToRedirect);
     }
   };
 
-  const handleOnSelect = (value) => {
-    setCurrentValue(value[outputValue] || value); // set nested value or value
-  };
-
   const [, cancel] = useDebounce(
     () => {
-      //  setState("Typing stopped");
       setDebouncedValue(valToSearch);
     },
     500,
@@ -87,8 +89,6 @@ export default function AutoCompleteAsync({
   const onSearch = (searchText) => {
     isSearching.current = true;
     setSearching(true);
-    // setOptions([]);
-    // setCurrentValue(undefined);
     setValToSearch(searchText);
   };
 
@@ -97,10 +97,9 @@ export default function AutoCompleteAsync({
       setOptions(result);
     } else {
       setSearching(false);
-      // setCurrentValue(undefined);
-      // setOptions([]);
     }
   }, [isSuccess, result]);
+
   useEffect(() => {
     // this for update Form , it's for setField
     if (value && isUpdating.current) {
@@ -123,18 +122,18 @@ export default function AutoCompleteAsync({
       value={currentValue}
       onSearch={onSearch}
       onClear={() => {
-        // setOptions([]);
-        // setCurrentValue(undefined);
         setSearching(false);
+        if (onChange) onChange(undefined);
+        setCurrentValue(undefined);
       }}
       onChange={handleSelectChange}
       style={{ minWidth: '220px' }}
-      // onSelect={handleOnSelect}
     >
       {selectOptions.map((optionField) => (
         <Select.Option
           key={optionField[outputValue] || optionField}
           value={optionField[outputValue] || optionField}
+          data={optionField} // Pass the entire option object
         >
           {labels(optionField)}
         </Select.Option>
