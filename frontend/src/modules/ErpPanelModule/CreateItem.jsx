@@ -89,6 +89,12 @@ export default function CreateItem({ config, CreateForm }) {
   const onSubmit = (fieldsValue) => {
     console.log('🚀 ~ onSubmit ~ fieldsValue:', fieldsValue);
     if (fieldsValue) {
+      // Generate invoice number jika belum ada
+      if (!fieldsValue.invoiceNumber && entity === 'invoice') {
+        const invoiceNum = generateInvoiceNumber(clientShortName);
+        fieldsValue.invoiceNumber = invoiceNum;
+      }
+
       if (fieldsValue.items) {
         let newList = [...fieldsValue.items];
         newList.map((item) => {
@@ -105,6 +111,7 @@ export default function CreateItem({ config, CreateForm }) {
 
   return (
     <>
+      {isLoading && <Loading />}
       <PageHeader
         onBack={() => {
           navigate(`/${entity.toLowerCase()}`);
@@ -112,28 +119,26 @@ export default function CreateItem({ config, CreateForm }) {
         backIcon={<ArrowLeftOutlined />}
         title={translate('New')}
         ghost={false}
-        tags={<Tag>{translate('Draft')}</Tag>}
-        // subTitle="This is create page"
+        tags={<Tag color="blue">{translate('Draft')}</Tag>}
         extra={[
           <Button
-            key={`${uniqueId()}`}
+            key="1"
             onClick={() => navigate(`/${entity.toLowerCase()}`)}
             icon={<CloseCircleOutlined />}
           >
             {translate('Cancel')}
           </Button>,
-          <SaveForm form={form} key={`${uniqueId()}`} />,
+          <SaveForm key="2" form={form} />,
         ]}
         style={{
           padding: '20px 0px',
         }}
-      ></PageHeader>
-      <Divider dashed />
-      <Loading isLoading={isLoading}>
+      >
+        <Divider />
         <Form form={form} layout="vertical" onFinish={onSubmit} onValuesChange={handelValuesChange}>
-          <CreateForm subTotal={subTotal} offerTotal={offerSubTotal} />
+          <CreateForm subTotal={subTotal} form={form} />
         </Form>
-      </Loading>
+      </PageHeader>
     </>
   );
 }

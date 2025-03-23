@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
@@ -9,10 +10,14 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-
   name: {
     type: String,
     required: true,
+  },
+  shortName: {
+    type: String,
+    required: true,
+    default: '',
   },
   phone: String,
   country: String,

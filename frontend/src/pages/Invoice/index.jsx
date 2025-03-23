@@ -20,8 +20,13 @@ export default function Invoice() {
   const deleteModalLabels = ['number', 'client.name'];
   const dataTableColumns = [
     {
-      title: translate('Number'),
-      dataIndex: 'number',
+      title: translate('No'),
+      dataIndex: 'index',
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: translate('Invoice Number'),
+      dataIndex: 'invoiceNumber',
     },
     {
       title: translate('Client'),
