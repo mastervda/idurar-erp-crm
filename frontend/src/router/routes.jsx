@@ -23,7 +23,8 @@ const PaymentMode = lazy(() => import('@/pages/PaymentMode'));
 const Settings = lazy(() => import('@/pages/Settings/Settings'));
 const Taxes = lazy(() => import('@/pages/Taxes'));
 const Profile = lazy(() => import('@/pages/Profile'));
-// const About = lazy(() => import('@/pages/About'));
+const Shipment = lazy(() => import('@/pages/Shipment'));
+const ShipmentCreate = lazy(() => import('@/pages/Shipment/ShipmentCreate'));
 
 let routes = {
   expense: [],
@@ -36,10 +37,6 @@ let routes = {
       path: '/logout',
       element: <Logout />,
     },
-    // {
-    //   path: '/about',
-    //   element: <About />,
-    // },
     {
       path: '/',
       element: <Dashboard />,
@@ -95,6 +92,17 @@ let routes = {
     {
       path: '/payment/update/:id',
       element: <PaymentUpdate />,
+    },
+
+    // shipment
+
+    {
+      path: '/shipment',
+      element: <Shipment />,
+    },
+    {
+      path: '/shipment/create',
+      element: <ShipmentCreate />,
     },
 
     {

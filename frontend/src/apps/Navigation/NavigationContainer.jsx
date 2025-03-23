@@ -54,6 +54,11 @@ function Sidebar({ collapsible, isMobile = false }) {
       label: <Link to={'/'}>{translate('dashboard')}</Link>,
     },
     {
+      key: 'shipment',
+      icon: <ReconciliationOutlined />,
+      label: <Link to={'/shipment'}>{translate('shipment')}</Link>,
+    },
+    {
       key: 'customer',
       icon: <CustomerServiceOutlined />,
       label: <Link to={'/customer'}>{translate('customers')}</Link>,
