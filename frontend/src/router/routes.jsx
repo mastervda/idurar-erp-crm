@@ -6,7 +6,6 @@ const Logout = lazy(() => import('@/pages/Logout.jsx'));
 const NotFound = lazy(() => import('@/pages/NotFound.jsx'));
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const Customer = lazy(() => import('@/pages/Customer'));
 const Invoice = lazy(() => import('@/pages/Invoice'));
 const InvoiceCreate = lazy(() => import('@/pages/Invoice/InvoiceCreate'));
 const InvoiceRead = lazy(() => import('@/pages/Invoice/InvoiceRead'));
@@ -26,6 +25,13 @@ const Profile = lazy(() => import('@/pages/Profile'));
 const Shipment = lazy(() => import('@/pages/Shipment'));
 const ShipmentCreate = lazy(() => import('@/pages/Shipment/ShipmentCreate'));
 
+const Client = lazy(() => import('@/pages/Client'));
+const ClientCreate = lazy(() => import('@/pages/Client/ClientCreate'));
+const ClientUpdate = lazy(() => import('@/pages/Client/ClientUpdate'));
+
+const Company = lazy(() => import('@/pages/Company'));
+const Tag = lazy(() => import('@/pages/Tag'));
+
 let routes = {
   expense: [],
   default: [
@@ -42,8 +48,24 @@ let routes = {
       element: <Dashboard />,
     },
     {
-      path: '/customer',
-      element: <Customer />,
+      path: '/company',
+      element: <Company />,
+    },
+    {
+      path: '/client',
+      element: <Client />,
+    },
+    {
+      path: '/client/create',
+      element: <ClientCreate />,
+    },
+    {
+      path: '/client/update/:id',
+      element: <ClientUpdate />,
+    },
+    {
+      path: '/tag',
+      element: <Tag />,
     },
     {
       path: '/invoice',

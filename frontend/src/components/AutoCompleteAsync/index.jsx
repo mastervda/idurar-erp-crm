@@ -19,6 +19,7 @@ export default function AutoCompleteAsync({
   value, /// this is for update
   onChange, /// this is for update
   onSelect,
+  formatDisplayLabel,
   labelInvalue = false,
 }) {
   const translate = useLanguage();
@@ -70,7 +71,11 @@ export default function AutoCompleteAsync({
   let { onFetch, result, isSuccess, isLoading } = useOnFetch();
 
   const labels = (optionField) => {
-    return displayLabels.map((x) => optionField[x]).join(' ');
+    if (formatDisplayLabel) {
+      return formatDisplayLabel(optionField);
+    }
+
+    return optionField.name || optionField[displayLabels[0]];
   };
 
   useEffect(() => {
