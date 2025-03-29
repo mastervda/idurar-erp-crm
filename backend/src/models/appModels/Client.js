@@ -1,4 +1,4 @@
-const { required } = require('joi');
+const { type } = require('@/locale/translation/id_id');
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
@@ -10,14 +10,21 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
+    autopopulate: true,
+  },
+  tags: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Tag',
+      autopopulate: true,
+    },
+  ],
   name: {
     type: String,
     required: true,
-  },
-  shortName: {
-    type: String,
-    required: true,
-    default: '',
   },
   phone: String,
   country: String,

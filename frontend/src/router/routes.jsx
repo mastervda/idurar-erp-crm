@@ -6,7 +6,6 @@ const Logout = lazy(() => import('@/pages/Logout.jsx'));
 const NotFound = lazy(() => import('@/pages/NotFound.jsx'));
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const Customer = lazy(() => import('@/pages/Customer'));
 const Invoice = lazy(() => import('@/pages/Invoice'));
 const InvoiceCreate = lazy(() => import('@/pages/Invoice/InvoiceCreate'));
 const InvoiceRead = lazy(() => import('@/pages/Invoice/InvoiceRead'));
@@ -23,7 +22,15 @@ const PaymentMode = lazy(() => import('@/pages/PaymentMode'));
 const Settings = lazy(() => import('@/pages/Settings/Settings'));
 const Taxes = lazy(() => import('@/pages/Taxes'));
 const Profile = lazy(() => import('@/pages/Profile'));
-// const About = lazy(() => import('@/pages/About'));
+const Shipment = lazy(() => import('@/pages/Shipment'));
+const ShipmentCreate = lazy(() => import('@/pages/Shipment/ShipmentCreate'));
+
+const Client = lazy(() => import('@/pages/Client'));
+const ClientCreate = lazy(() => import('@/pages/Client/ClientCreate'));
+const ClientUpdate = lazy(() => import('@/pages/Client/ClientUpdate'));
+
+const Company = lazy(() => import('@/pages/Company'));
+const Tag = lazy(() => import('@/pages/Tag'));
 
 let routes = {
   expense: [],
@@ -36,17 +43,29 @@ let routes = {
       path: '/logout',
       element: <Logout />,
     },
-    // {
-    //   path: '/about',
-    //   element: <About />,
-    // },
     {
       path: '/',
       element: <Dashboard />,
     },
     {
-      path: '/customer',
-      element: <Customer />,
+      path: '/company',
+      element: <Company />,
+    },
+    {
+      path: '/client',
+      element: <Client />,
+    },
+    {
+      path: '/client/create',
+      element: <ClientCreate />,
+    },
+    {
+      path: '/client/update/:id',
+      element: <ClientUpdate />,
+    },
+    {
+      path: '/tag',
+      element: <Tag />,
     },
     {
       path: '/invoice',
@@ -95,6 +114,17 @@ let routes = {
     {
       path: '/payment/update/:id',
       element: <PaymentUpdate />,
+    },
+
+    // shipment
+
+    {
+      path: '/shipment',
+      element: <Shipment />,
+    },
+    {
+      path: '/shipment/create',
+      element: <ShipmentCreate />,
     },
 
     {

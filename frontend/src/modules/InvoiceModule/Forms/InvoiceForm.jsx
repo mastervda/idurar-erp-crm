@@ -82,18 +82,25 @@ function LoadInvoiceForm({ subTotal = 0, current = null, form }) {
     form.setFieldsValue({ invoiceNumber: invoiceNum });
   }, [clientShortName, lastNumber, currentYear]);
 
+  // Di bagian handleClientSelect
   const handleClientSelect = (value, option) => {
-    if (!option) {
-      console.error('No option selected');
+    if (!option || !option.data) {
+      console.error('No valid option selected:', option);
       return;
     }
+    const { company = {}, name, phone, email, address } = option.data;
+    const shortName = company?.shortName || 'XX';
+    // const companyName = company?.name || 'No Company';
 
-    const shortName = option?.data?.shortName || 'XX';
-    console.log('Client selected:', shortName);
     setClientShortName(shortName);
 
+    // Update form field
     if (value) {
-      form.setFieldsValue({ client: value });
+      form.setFieldsValue({
+        client: value,
+        clientData: option.data,
+        admin: name,
+      });
     }
   };
 
@@ -118,14 +125,28 @@ function LoadInvoiceForm({ subTotal = 0, current = null, form }) {
           >
             <AutoCompleteAsync
               entity={'client'}
-              displayLabels={['name']}
-              searchFields={'name'}
+              displayLabels={['company.name', 'name']}
+              searchFields="company.name,name"
               redirectLabel={'Add New Client'}
               withRedirect
               labelInvalue={true}
-              urlToRedirect={'/customer'}
+              urlToRedirect={'/client'}
               onSelect={handleClientSelect}
+              formatDisplayLabel={(item) => `${item.company?.name || 'No Company'} - ${item.name}`}
             />
+          </Form.Item>
+        </Col>
+        <Col className="gutter-row" span={8}>
+          <Form.Item
+            name="admin"
+            label={translate('Admin')}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input readOnly />
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={8}>
@@ -141,7 +162,7 @@ function LoadInvoiceForm({ subTotal = 0, current = null, form }) {
             <Input readOnly />
           </Form.Item>
         </Col>
-        <Col className="gutter-row" span={8}>
+        <Col className="gutter-row" span={3}>
           <Form.Item
             name="number"
             initialValue={lastNumber}

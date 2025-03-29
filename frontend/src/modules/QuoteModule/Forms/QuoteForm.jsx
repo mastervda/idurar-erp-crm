@@ -94,7 +94,7 @@ function LoadQuoteForm({ subTotal = 0, current = null }) {
               searchFields="name"
               redirectLabel="Add New Client"
               withRedirect
-              urlToRedirect="/customer"
+              urlToRedirect="/client"
               onSelect={(value, option) => handleClientChange(value, option)}
             />
           </Form.Item>
